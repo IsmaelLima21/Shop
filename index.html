@@ -1,0 +1,1017 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Menú de Alimentos</title>
+    <script type="importmap">
+        {
+            "imports": {
+                "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+            }
+        }
+    </script>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+:root {
+    --primary-color: #FF6B35;
+    --secondary-color: #F7C59F;
+    --dark-color: #1C1C1E;
+    --light-color: #F2F2F7;
+    --card-background: #FFFFFF;
+    --input-background: #FFFFFF;
+    --border-color: #E5E5EA;
+    --danger-color: #FF3B30;
+    --success-color: #34C759;
+    --info-color: #007AFF;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+body {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    line-height: 1.6;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+#app {
+    max-width: 100%;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+header h1 {
+    font-size: 1.3rem;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.logo-container {
+    height: 40px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.site-logo {
+    height: 100%;
+    max-width: 100px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+main {
+    padding: 0.75rem;
+    flex-grow: 1;
+}
+
+.menu-container {
+    padding-bottom: 2rem;
+}
+
+.category-filter {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.4rem;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.category-filter::-webkit-scrollbar {
+    display: none;
+}
+
+.category-btn {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0.5rem 0.8rem;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 0.85rem;
+    min-width: auto;
+    box-shadow: 0 1px 3px var(--shadow-color);
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+.category-btn:active {
+    transform: scale(0.98);
+}
+
+.category-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+}
+
+.product-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px color-mix(in srgb, var(--shadow-color) 80%, black);
+}
+
+.product-card:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.product-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 0.7rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.price {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.05rem;
+}
+
+.product-category-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    background-color: var(--secondary-color);
+    color: var(--dark-color);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    margin-top: 0.25rem;
+    align-self: flex-start;
+}
+
+.product-details {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    margin-top: 0.75rem;
+}
+
+.product-details img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+}
+
+.product-details h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.product-details .price {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.back-button {
+    background-color: var(--border-color);
+    color: var(--dark-color);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.back-button:active {
+    background-color: color-mix(in srgb, var(--border-color) 80%, black);
+}
+
+.description {
+    margin-top: 1rem;
+    color: #555;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cart-button {
+    background-color: var(--dark-color);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.cart-button:active {
+    background-color: color-mix(in srgb, var(--dark-color) 80%, black);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: 1.5px solid white;
+}
+
+.change-options {
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background-color: var(--light-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.bill-selection {
+    margin-top: 0.75rem;
+}
+
+.bill-selection label {
+}
+
+/* Cart Overlay Styles */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: flex-end; /* Slide from right */
+    z-index: 20;
+    transition: background-color 0.3s ease;
+}
+
+.cart-container {
+    background-color: var(--light-color);
+    width: 100%;
+    max-width: 350px; /* Adjust max-width for mobile */
+    height: 100%;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    animation: slideInRight 0.3s ease forwards; /* Animation */
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    flex-shrink: 0;
+}
+
+.cart-header h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--dark-color);
+    transition: opacity 0.2s ease;
+}
+
+.close-button:active {
+    opacity: 0.6;
+}
+
+.cart-body {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto; /* Enable scrolling for cart content */
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-items-list {
+    flex-grow: 1; /* Allow list to take up space */
+    display: flex;
+    flex-direction: column;
+}
+
+.empty-cart {
+    text-align: center;
+    color: #888;
+    margin-top: 2rem;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    border-radius: 8px;
+    padding: 0.75rem;
+    box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+    margin-right: 0.75rem;
+}
+
+.cart-item-details h3 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.cart-item-details .price {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+}
+
+.quantity-btn {
+    background-color: var(--border-color);
+    border: none;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.quantity-btn:active {
+    background-color: color-mix(in srgb, var(--border-color) 80%, black);
+}
+
+.quantity {
+    padding: 0 0.4rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--danger-color);
+    flex-shrink: 0;
+    padding: 0.3rem;
+    transition: opacity 0.2s ease;
+}
+.remove-btn:active {
+     opacity: 0.6;
+}
+
+
+.cart-navigation-button {
+    display: block;
+    width: 100%;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    margin-top: auto; /* Push button to the bottom */
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.cart-navigation-button:active {
+    background-color: color-mix(in srgb, var(--success-color) 80%, black);
+}
+
+
+.cart-details-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--card-background);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input[type="text"] {
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--input-background);
+}
+
+.change-options label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.change-options input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.bill-selection label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.bill-selection select {
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--input-background);
+    width: 100%;
+    appearance: none; /* Remove default select styling */
+    -webkit-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.362%22%20height%3D%22292.362%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287.9.9L146.2 142.6 4.4.9c-5.8-5.8-15.2-5.8-21 0-5.8 5.8-5.8 15.2 0 21L135.7 164c5.8 5.8 15.2 5.8 21 0l152.3-142.1c5.8-5.8 5.8-15.2 0-21-5.8-5.8-15.2-5.8-21 0z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+}
+
+
+.checkout-btn {
+    display: block;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 1rem; /* Add space above the button */
+    transition: background-color 0.2s ease;
+}
+
+.checkout-btn:active {
+    background-color: color-mix(in srgb, var(--primary-color) 80%, black);
+}
+
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 1rem 0.75rem;
+    text-align: center;
+    margin-top: auto; /* Push footer to the bottom */
+    flex-shrink: 0;
+}
+
+.footer-content {
+    font-size: 0.85rem;
+    color: #cccccc;
+}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header :style="{ backgroundColor: siteConfig.headerColor }">
+            <div class="logo-container" v-if="siteConfig.logoUrl">
+                <img :src="siteConfig.logoUrl" alt="Logo" class="site-logo">
+            </div>
+            <h1>{{ siteConfig.title }}</h1>
+            <div class="header-controls">
+                <!-- Only show cart button in client view -->
+                <button @click="toggleCart" class="cart-button">
+                    🛒 <span v-if="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span>
+                </button>
+                <!-- Admin toggle button removed -->
+            </div>
+        </header>
+
+        <main>
+            <!-- Client View (Always visible) -->
+            <div class="menu-container">
+                <!-- Last updated removed -->
+
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button v-if="!siteConfig.hideAllCategory"
+                            @click="selectCategory(null)"
+                            class="category-btn"
+                            :class="{ active: selectedCategoryId === null }">
+                        Todos
+                    </button>
+                    <button v-for="category in visibleCategories"
+                            :key="category.id"
+                            @click="selectCategory(category.id)"
+                            class="category-btn"
+                            :class="{ active: selectedCategoryId === category.id }">
+                        {{ category.name }}
+                    </button>
+                </div>
+
+                <!-- Cart overlay -->
+                <div v-if="showCart" class="cart-overlay" @click.self="toggleCart">
+                    <div class="cart-container">
+                        <div class="cart-header">
+                            <h2>Mi Pedido</h2>
+                            <button @click="toggleCart" class="close-button">×</button>
+                        </div>
+
+                        <div class="cart-body">
+                            <!-- Cart Items List View -->
+                            <div v-if="cartView === 'items'" class="cart-items-list">
+                                <div v-if="cart.length === 0" class="empty-cart">
+                                    <p>Tu carrito está vacío</p>
+                                </div>
+
+                                <div v-else>
+                                    <div v-for="item in cart" :key="item.productId" class="cart-item">
+                                        <img :src="item.imageUrl || 'default-food.png'" alt="Imagen del producto">
+                                        <div class="cart-item-details">
+                                            <h3>{{ item.name }}</h3>
+                                            <p class="price">${{ item.price.toFixed(2) }}</p>
+                                        </div>
+                                        <div class="quantity-controls">
+                                            <button @click="decreaseQuantity(item)" class="quantity-btn">-</button>
+                                            <span class="quantity">{{ item.quantity }}</span>
+                                            <button @click="increaseQuantity(item)" class="quantity-btn">+</button>
+                                        </div>
+                                        <button @click="removeFromCart(item)" class="remove-btn">🗑️</button>
+                                    </div>
+                                </div>
+                                <button v-if="cart.length > 0" @click="showCustomerDetails" class="cart-navigation-button">Continuar</button>
+                            </div>
+
+                            <!-- Customer Details and Payment View -->
+                            <div v-if="cartView === 'details'" class="cart-details-form">
+                                <button @click="showCartItems" class="back-button">Volver al Pedido</button>
+
+                                <div class="form-group">
+                                    <label for="customerName">Nombre del cliente:</label>
+                                    <input type="text" id="customerName" v-model="customerInfo.name" placeholder="Su nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryAddress">Dirección de entrega:</label>
+                                    <input type="text" id="deliveryAddress" v-model="customerInfo.address" placeholder="Su dirección" required>
+                                </div>
+                                <div class="change-options">
+                                    <label>
+                                        <input type="checkbox" v-model="needsChange"> Necesito cambio
+                                    </label>
+                                    <div v-if="needsChange" class="bill-selection">
+                                        <label>Pagaré con billete de:</label>
+                                        <select v-model="paymentBill">
+                                            <option value="20">$20</option>
+                                            <option value="50">$50</option>
+                                            <option value="100">$100</option>
+                                            <option value="200">$200</option>
+                                            <option value="500">$500</option>
+                                            <option value="1000">$1000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="checkout-btn" @click="sendOrderToWhatsApp">Realizar Pedido</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Grid or Details -->
+                <div v-if="!selectedProduct" class="products-grid">
+                    <div v-for="product in visibleProducts" :key="product.id"
+                         class="product-card" @click="showProductDetails(product)">
+                        <img :src="product.imageUrl || 'default-food.png'" alt="Imagen del producto">
+                        <div class="product-info">
+                            <h3>{{ product.name }}</h3>
+                            <p class="price">${{ product.price.toFixed(2) }}</p>
+                            <span v-if="product.categoryId" class="product-category-tag">
+                                {{ categories.find(c => c.id === product.categoryId)?.name }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-else class="product-details">
+                    <button class="back-button" @click="closeDetails">Volver al Menú</button>
+                    <img :src="selectedProduct.imageUrl || 'default-food.png'" alt="Imagen del producto">
+                    <h2>{{ selectedProduct.name }}</h2>
+                    <p class="price">${{ selectedProduct.price.toFixed(2) }}</p>
+                    <p class="description">{{ selectedProduct.description }}</p>
+                    <button @click="addToCart(selectedProduct)" class="add-to-cart-btn">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <!-- Admin View removed -->
+        </main>
+
+        <footer v-if="siteConfig.showFooter" :style="{ backgroundColor: siteConfig.footerColor }">
+            <div class="footer-content" v-html="siteConfig.footerContent"></div>
+        </footer>
+    </div>
+
+    <script type="module">
+        import { createApp, ref, reactive, computed, onMounted } from 'vue';
+
+createApp({
+    setup() {
+        // State
+        const products = ref([]);
+        const categories = ref([]);
+        const siteConfig = reactive({
+            title: 'Cargando Menú...',
+            headerColor: '#FF6B35', 
+            lastUpdated: '', 
+            logoUrl: '',
+            hideAllCategory: false,
+            footerContent: '',
+            footerColor: '#1C1C1E', 
+            showFooter: false
+        });
+        const whatsappConfig = reactive({
+            number: ''
+        });
+
+        const selectedProduct = ref(null);
+
+        // Cart state
+        const cart = ref(JSON.parse(localStorage.getItem('cart')) || []);
+        const showCart = ref(false);
+        const needsChange = ref(false);
+        const paymentBill = ref("100");
+        const customerInfo = reactive({
+            name: '',
+            address: ''
+        });
+        const cartView = ref('items');
+
+        // Category filtering state
+        const selectedCategoryId = ref(null);
+
+        // Load configuration from URL
+        const loadConfigFromUrl = async () => {
+        const remoteJsonUrl = 'https://raw.githubusercontent.com/IsmaelLima21/Shop/f3c4bfb602180291df64fc74cfb83fc60f02f378/data/menu-digital-backup-2025-06-05.json';
+
+
+            try {
+                const response = await fetch(remoteJsonUrl);
+                if (!response.ok) {
+                    throw new Error(`Error al cargar: ${response.status}`);
+                }
+
+                const loadedData = await response.json();
+
+                products.value = Array.isArray(loadedData.products) ? loadedData.products : [];
+                categories.value = Array.isArray(loadedData.categories) ? loadedData.categories : [];
+
+                siteConfig.title = loadedData.siteConfig?.title || 'Menú Digital';
+                siteConfig.headerColor = loadedData.siteConfig?.headerColor || '#FF6B35';
+                siteConfig.logoUrl = loadedData.siteConfig?.logoUrl || '';
+                siteConfig.hideAllCategory = loadedData.siteConfig?.hideAllCategory === true; 
+                siteConfig.footerContent = loadedData.siteConfig?.footerContent || ' 2023 Menú Digital. Todos los derechos reservados.';
+                siteConfig.footerColor = loadedData.siteConfig?.footerColor || '#1C1C1E';
+                siteConfig.showFooter = loadedData.siteConfig?.showFooter !== false; 
+
+                whatsappConfig.number = loadedData.whatsappConfig?.number || '';
+
+                console.log('Menu data loaded successfully from URL.');
+
+            } catch (error) {
+                console.error('Error loading menu configuration from URL:', error);
+                siteConfig.title = 'Error al Cargar Menú';
+                siteConfig.footerContent = `No se pudo cargar el menú desde la URL configurada. ${error.message}`;
+                siteConfig.showFooter = true;
+                products.value = []; 
+                categories.value = []; 
+            }
+        };
+
+        // Load data on app mount
+        onMounted(loadConfigFromUrl);
+
+        // Computed properties for cart
+        const cartItemCount = computed(() => {
+            return cart.value.reduce((total, item) => total + item.quantity, 0);
+        });
+
+        const cartTotal = computed(() => {
+            return cart.value.reduce((total, item) => total + (item.price * item.quantity), 0);
+        });
+
+        // Products filtering for client view
+        const visibleProducts = computed(() => {
+            if (!Array.isArray(products.value)) {
+                 return [];
+            }
+            const filteredByCategory = selectedCategoryId.value
+                ? products.value.filter(product => product.categoryId === selectedCategoryId.value)
+                : products.value;
+
+            return filteredByCategory.filter(product => product.visible !== false); 
+        });
+
+        // Visible categories
+        const visibleCategories = computed(() => {
+             if (!Array.isArray(categories.value)) {
+                 return [];
+             }
+            return categories.value.filter(category => category.visible !== false); 
+        });
+
+
+        // Cart methods
+        const toggleCart = () => {
+            showCart.value = !showCart.value;
+             if (!showCart.value) {
+                cartView.value = 'items';
+                customerInfo.name = '';
+                customerInfo.address = '';
+                needsChange.value = false;
+                paymentBill.value = "100";
+            }
+        };
+
+        const addToCart = (product) => {
+            const existingItem = cart.value.find(item => item.productId === product.id);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.value.push({
+                    productId: product.id,
+                    name: product.name,
+                    price: product.price,
+                    imageUrl: product.imageUrl,
+                    quantity: 1
+                });
+            }
+
+            saveCart();
+        };
+
+        const increaseQuantity = (item) => {
+            item.quantity += 1;
+            saveCart();
+        };
+
+        const decreaseQuantity = (item) => {
+            if (item.quantity > 1) {
+                item.quantity -= 1;
+                saveCart();
+            } else {
+                removeFromCart(item);
+            }
+        };
+
+        const removeFromCart = (item) => {
+            const index = cart.value.findIndex(i => i.productId === item.productId);
+            if (index !== -1) {
+                cart.value.splice(index, 1);
+                saveCart();
+            }
+        };
+
+        const saveCart = () => {
+            localStorage.setItem('cart', JSON.stringify(cart.value));
+        };
+
+        const showProductDetails = (product) => {
+            selectedProduct.value = product;
+        };
+
+        const closeDetails = () => {
+            selectedProduct.value = null;
+        };
+
+        // Category methods
+        const selectCategory = (categoryId) => {
+            if (selectedCategoryId.value === categoryId) {
+                selectedCategoryId.value = null; 
+            } else {
+                selectedCategoryId.value = categoryId;
+            }
+        };
+
+        // WhatsApp methods
+        const sendOrderToWhatsApp = () => {
+            const phoneNumber = whatsappConfig.number; 
+
+            if (!phoneNumber) {
+                alert('No se ha configurado un número de WhatsApp para enviar pedidos.');
+                return;
+            }
+
+             if (!customerInfo.name || !customerInfo.address) {
+                alert('Por favor completa tu nombre y dirección de entrega antes de enviar el pedido.');
+                return;
+            }
+
+            if (cart.value.length === 0) {
+                 alert('El carrito está vacío.');
+                 return;
+            }
+
+            let message = " *NUEVO PEDIDO* \n\n";
+            message += `*Cliente:* ${customerInfo.name}\n`;
+            message += `*Dirección:* ${customerInfo.address}\n\n`;
+            message += "*Productos:*\n";
+
+            cart.value.forEach(item => {
+                message += `• ${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}\n`;
+            });
+
+            message += `\n*Total: $${cartTotal.value.toFixed(2)}*`;
+
+            if (needsChange.value) {
+                const billAmount = parseFloat(paymentBill.value);
+                 if (!isNaN(billAmount) && billAmount >= cartTotal.value) {
+                    message += `\n\n*Necesito cambio*`;
+                    message += `\nPagaré con: $${billAmount.toFixed(2)}`;
+                    const changeAmount = billAmount - cartTotal.value;
+                    message += `\nCambio a recibir: $${changeAmount.toFixed(2)}`;
+                 } else {
+                     message += `\n\n*Pagaré con:* $${paymentBill.value} (Billete no válido para cambio)`;
+                 }
+            }
+
+            const encodedMessage = encodeURIComponent(message);
+
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+        };
+
+        const showCustomerDetails = () => {
+            cartView.value = 'details';
+        };
+
+        const showCartItems = () => {
+            cartView.value = 'items';
+        };
+
+        return {
+            products,
+            categories,
+            siteConfig,
+            whatsappConfig,
+            selectedProduct,
+            cart,
+            showCart,
+            needsChange,
+            paymentBill,
+            customerInfo,
+            cartView,
+            selectedCategoryId,
+            cartItemCount,
+            cartTotal,
+            visibleProducts,
+            visibleCategories,
+            toggleCart,
+            addToCart,
+            increaseQuantity,
+            decreaseQuantity,
+            removeFromCart,
+            showProductDetails,
+            closeDetails,
+            selectCategory,
+            sendOrderToWhatsApp,
+            showCustomerDetails,
+            showCartItems,
+            loadConfigFromUrl 
+        };
+    }
+}).mount('#app');
+    </script>
+</body>
+</html>
