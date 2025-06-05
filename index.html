@@ -693,6 +693,9 @@ footer {
 
                             <!-- Customer Details and Payment View -->
                             <div v-if="cartView === 'details'" class="cart-details-form">
+
+			    <button @click="clearCustomerInfo">Borrar Datos</button>	
+
                                 <button @click="showCartItems" class="back-button">Volver al Pedido</button>
 
                                 <div class="form-group">
