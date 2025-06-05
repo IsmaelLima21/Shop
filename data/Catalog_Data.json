@@ -15,8 +15,8 @@
       "price": 12.99,
       "description": "Pizza italiana tradicional con tomate, mozzarella y albahaca fresca.",
       "imageUrl": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-      "visible": false,
-      "categoryId": 1
+      "visible": true,
+      "categoryId": 4
     },
     {
       "id": 3,
@@ -60,7 +60,7 @@
     "showFooter": true
   },
   "whatsappConfig": {
-    "number": "503 60179721"
+    "number": "503 60178721"
   },
-  "exportDate": "2025-06-05T20:58:25.653Z"
+  "exportDate": "2025-06-05T23:23:23.728Z"
 }
