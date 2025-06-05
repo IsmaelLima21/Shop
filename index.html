@@ -759,7 +759,7 @@ footer {
     </div>
 
     <script type="module">
-        import { createApp, ref, reactive, computed, onMounted } from 'vue';
+        import { createApp, ref, reactive, computed, onMounted, watch } from 'vue';
 
 createApp({
     setup() {
@@ -795,6 +795,28 @@ createApp({
 
         // Category filtering state
         const selectedCategoryId = ref(null);
+
+            // Inicializa con valores guardados o vacíos
+    const customerInfo = reactive({
+      name: localStorage.getItem('customerName') || '',
+      address: localStorage.getItem('customerAddress') || ''
+    });
+
+    // Guarda automáticamente cuando cambian los datos
+    watch(() => customerInfo.name, (newVal) => {
+      localStorage.setItem('customerName', newVal);
+    });
+    watch(() => customerInfo.address, (newVal) => {
+      localStorage.setItem('customerAddress', newVal);
+    });
+
+    // (Opcional) para limpiar campos y localStorage si lo deseas
+    const clearCustomerInfo = () => {
+      customerInfo.name = '';
+      customerInfo.address = '';
+      localStorage.removeItem('customerName');
+      localStorage.removeItem('customerAddress');
+    };
 
         // Load configuration from URL
         const loadConfigFromUrl = async () => {
@@ -1023,7 +1045,9 @@ createApp({
             sendOrderToWhatsApp,
             showCustomerDetails,
             showCartItems,
-            loadConfigFromUrl 
+            loadConfigFromUrl,
+	    customerInfo,
+            clearCustomerInfo	 
         };
     }
 }).mount('#app');
