@@ -1,0 +1,155 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Menú de Alimentos</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <header :style="{ backgroundColor: siteConfig.headerColor }">
+            <div class="logo-container" v-if="siteConfig.logoUrl">
+                <img :src="siteConfig.logoUrl" alt="Logo" class="site-logo">
+            </div>
+            <h1>{{ siteConfig.title }}</h1>
+            <div class="header-controls">
+                <!-- Only show cart button in client view -->
+                <button @click="toggleCart" class="cart-button">
+                    🛒 <span v-if="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span>
+                </button>
+                <!-- Admin toggle button removed -->
+            </div>
+        </header>
+
+        <main>
+            <!-- Client View (Always visible) -->
+            <div class="menu-container">
+                <!-- Last updated removed -->
+
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button v-if="!siteConfig.hideAllCategory"
+                            @click="selectCategory(null)"
+                            class="category-btn"
+                            :class="{ active: selectedCategoryId === null }">
+                        Todos
+                    </button>
+                    <button v-for="category in visibleCategories"
+                            :key="category.id"
+                            @click="selectCategory(category.id)"
+                            class="category-btn"
+                            :class="{ active: selectedCategoryId === category.id }">
+                        {{ category.name }}
+                    </button>
+                </div>
+
+                <!-- Cart overlay -->
+                <div v-if="showCart" class="cart-overlay" @click.self="toggleCart">
+                    <div class="cart-container">
+                        <div class="cart-header">
+                            <h2>Mi Pedido</h2>
+                            <button @click="toggleCart" class="close-button">×</button>
+                        </div>
+
+                        <div class="cart-body">
+                            <!-- Cart Items List View -->
+                            <div v-if="cartView === 'items'" class="cart-items-list">
+                                <div v-if="cart.length === 0" class="empty-cart">
+                                    <p>Tu carrito está vacío</p>
+                                </div>
+
+                                <div v-else>
+                                    <div v-for="item in cart" :key="item.productId" class="cart-item">
+                                        <img :src="item.imageUrl || 'default-food.png'" alt="Imagen del producto">
+                                        <div class="cart-item-details">
+                                            <h3>{{ item.name }}</h3>
+                                            <p class="price">${{ item.price.toFixed(2) }}</p>
+                                        </div>
+                                        <div class="quantity-controls">
+                                            <button @click="decreaseQuantity(item)" class="quantity-btn">-</button>
+                                            <span class="quantity">{{ item.quantity }}</span>
+                                            <button @click="increaseQuantity(item)" class="quantity-btn">+</button>
+                                        </div>
+                                        <button @click="removeFromCart(item)" class="remove-btn">🗑️</button>
+                                    </div>
+                                </div>
+                                <button v-if="cart.length > 0" @click="showCustomerDetails" class="cart-navigation-button">Continuar</button>
+                            </div>
+
+                            <!-- Customer Details and Payment View -->
+                            <div v-if="cartView === 'details'" class="cart-details-form">
+                                <button @click="showCartItems" class="back-button">Volver al Pedido</button>
+
+                                <div class="form-group">
+                                    <label for="customerName">Nombre del cliente:</label>
+                                    <input type="text" id="customerName" v-model="customerInfo.name" placeholder="Su nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryAddress">Dirección de entrega:</label>
+                                    <input type="text" id="deliveryAddress" v-model="customerInfo.address" placeholder="Su dirección" required>
+                                </div>
+                                <div class="change-options">
+                                    <label>
+                                        <input type="checkbox" v-model="needsChange"> Necesito cambio
+                                    </label>
+                                    <div v-if="needsChange" class="bill-selection">
+                                        <label>Pagaré con billete de:</label>
+                                        <select v-model="paymentBill">
+                                            <option value="20">$20</option>
+                                            <option value="50">$50</option>
+                                            <option value="100">$100</option>
+                                            <option value="200">$200</option>
+                                            <option value="500">$500</option>
+                                            <option value="1000">$1000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="checkout-btn" @click="sendOrderToWhatsApp">Realizar Pedido</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Grid or Details -->
+                <div v-if="!selectedProduct" class="products-grid">
+                    <div v-for="product in visibleProducts" :key="product.id"
+                         class="product-card" @click="showProductDetails(product)">
+                        <img :src="product.imageUrl || 'default-food.png'" alt="Imagen del producto">
+                        <div class="product-info">
+                            <h3>{{ product.name }}</h3>
+                            <p class="price">${{ product.price.toFixed(2) }}</p>
+                            <span v-if="product.categoryId" class="product-category-tag">
+                                {{ categories.find(c => c.id === product.categoryId)?.name }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-else class="product-details">
+                    <button class="back-button" @click="closeDetails">Volver al Menú</button>
+                    <img :src="selectedProduct.imageUrl || 'default-food.png'" alt="Imagen del producto">
+                    <h2>{{ selectedProduct.name }}</h2>
+                    <p class="price">${{ selectedProduct.price.toFixed(2) }}</p>
+                    <p class="description">{{ selectedProduct.description }}</p>
+                    <button @click="addToCart(selectedProduct)" class="add-to-cart-btn">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <!-- Admin View removed -->
+        </main>
+
+        <footer v-if="siteConfig.showFooter" :style="{ backgroundColor: siteConfig.footerColor }">
+            <div class="footer-content" v-html="siteConfig.footerContent"></div>
+        </footer>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+</body>
+</html>
