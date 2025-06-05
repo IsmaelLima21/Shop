@@ -790,20 +790,15 @@ createApp({
         const showCart = ref(false);
         const needsChange = ref(false);
         const paymentBill = ref("100");
+        // <-- Aquí integras la lógica de guardado automático -->
         const customerInfo = reactive({
-            name: '',
-            address: ''
+            name: localStorage.getItem('customerName') || '',
+            address: localStorage.getItem('customerAddress') || ''
         });
         const cartView = ref('items');
 
         // Category filtering state
         const selectedCategoryId = ref(null);
-
-            // Inicializa con valores guardados o vacíos
-    const customerInfo = reactive({
-      name: localStorage.getItem('customerName') || '',
-      address: localStorage.getItem('customerAddress') || ''
-    });
 
     // Guarda automáticamente cuando cambian los datos
     watch(() => customerInfo.name, (newVal) => {
