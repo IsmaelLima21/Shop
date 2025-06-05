@@ -15,7 +15,7 @@
       "price": 12.99,
       "description": "Pizza italiana tradicional con tomate, mozzarella y albahaca fresca.",
       "imageUrl": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-      "visible": true,
+      "visible": false,
       "categoryId": 1
     },
     {
@@ -25,7 +25,7 @@
       "description": "Lechuga romana fresca con aderezo César, crutones y queso parmesano.",
       "imageUrl": "https://images.unsplash.com/photo-1551248429-40975aa4de74?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
       "visible": true,
-      "categoryId": 4
+      "categoryId": 2
     }
   ],
   "categories": [
@@ -54,13 +54,13 @@
     "title": "Catálogo Digital",
     "headerColor": "#eb0000",
     "logoUrl": "",
-    "hideAllCategory": false,
-    "footerContent": "<p class=\"ql-align-center\">© 2025 Astro Aspects. All rights reserved.</p>",
+    "hideAllCategory": true,
+    "footerContent": "<p class=\"ql-align-center\">© 2025 Catálogo Digital. All rights reserved.</p>",
     "footerColor": "#2a2d34",
     "showFooter": true
   },
   "whatsappConfig": {
-    "number": ""
+    "number": "503 60179721"
   },
-  "exportDate": "2025-06-05T19:54:47.781Z"
+  "exportDate": "2025-06-05T20:58:25.653Z"
 }
