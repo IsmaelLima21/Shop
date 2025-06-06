@@ -53,7 +53,7 @@
   "siteConfig": {
     "title": "Catálogo Digital",
     "headerColor": "#d10000",
-    "logoUrl": "https://dl.dropboxusercontent.com/scl/fi/6t2of927lt20ofdvnwq8d/las-compras-en-linea.png?rlkey=fix5k0419ud02wam4bgu1r4rs&st=tjj4h6ss&dl=0&raw=1",
+    "logoUrl": "https://dl.dropboxusercontent.com/scl/fi/kv72kn2w4ohfpcl4yjlxt/las-compras-en-linea-1.png?rlkey=6855zhc4dr6rh9ehi55aydix1&st=u327v2d1&dl=0&raw=1",
     "hideAllCategory": false,
     "footerContent": "<p class=\"ql-align-center\">© 2025 Astro Aspects. All rights reserved.</p>",
     "footerColor": "#2a2d34",
@@ -62,5 +62,5 @@
   "whatsappConfig": {
     "number": "503 60178721"
   },
-  "exportDate": "2025-06-06T05:32:06.097Z"
+  "exportDate": "2025-06-06T07:25:06.232Z"
 }
