@@ -1016,6 +1016,8 @@ createApp({
         };
 
         return {
+	    customerInfo,
+            clearCustomerInfo,
             products,
             categories,
             siteConfig,
@@ -1043,9 +1045,7 @@ createApp({
             sendOrderToWhatsApp,
             showCustomerDetails,
             showCartItems,
-            loadConfigFromUrl,
-	    customerInfo,
-            clearCustomerInfo	 
+            loadConfigFromUrl
         };
     }
 }).mount('#app');
