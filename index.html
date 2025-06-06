@@ -618,6 +618,25 @@ footer {
     min-height: 44px;
 }
 
+	.category-btn.active {
+    	background-color: #ff3535;
+    	color: #ffffff;
+    	border-color: #ffffff;
+    	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+		}
+		.category-btn {
+        border: 2px solid var(--border-color);
+		}	
+
+	.site-logo {
+    	height: 100%;
+    	max-width: 100px;
+    	object-fit: contain;
+    	border-radius: 8px;
+    	margin-left: 10px;
+    	background: white;
+	}
+
     </style>
 </head>
 <body>
@@ -629,10 +648,11 @@ footer {
             <h1>{{ siteConfig.title }}</h1>
             <div class="header-controls">
                 <!-- Only show cart button in client view -->
-                <button @click="toggleCart" class="cart-button">
-                    🛒 <span v-if="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span>
-                </button>
-                <!-- Admin toggle button removed -->
+                 <button v-if="!isAdminMode" @click="toggleCart" class="cart-button">     
+			<i class="fas fa-cart-shopping"></i>
+  			<span v-if="cartItemCount > 0" class="cart-badge">{{ cartItemCount }}</span>
+		</button>
+
             </div>
         </header>
 
