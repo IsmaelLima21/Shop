@@ -16,7 +16,7 @@
       "description": "Pizza italiana tradicional con tomate, mozzarella y albahaca fresca.",
       "imageUrl": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
       "visible": true,
-      "categoryId": 4
+      "categoryId": 1
     },
     {
       "id": 3,
@@ -25,10 +25,15 @@
       "description": "Lechuga romana fresca con aderezo César, crutones y queso parmesano.",
       "imageUrl": "https://images.unsplash.com/photo-1551248429-40975aa4de74?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
       "visible": true,
-      "categoryId": 2
+      "categoryId": 1
     }
   ],
   "categories": [
+    {
+      "id": 4,
+      "name": "Misceláneos",
+      "visible": true
+    },
     {
       "id": 1,
       "name": "Promociones",
@@ -43,24 +48,19 @@
       "id": 3,
       "name": "Bebidas",
       "visible": true
-    },
-    {
-      "id": 4,
-      "name": "Misceláneos",
-      "visible": true
     }
   ],
   "siteConfig": {
     "title": "Catálogo Digital",
-    "headerColor": "#eb0000",
-    "logoUrl": "",
+    "headerColor": "#d60000",
+    "logoUrl": "https://dl.dropboxusercontent.com/scl/fi/6t2of927lt20ofdvnwq8d/las-compras-en-linea.png?rlkey=fix5k0419ud02wam4bgu1r4rs&st=tjj4h6ss&dl=0&raw=1",
     "hideAllCategory": true,
-    "footerContent": "<p class=\"ql-align-center\">© 2025 Catálogo Digital. All rights reserved.</p>",
+    "footerContent": "<p class=\"ql-align-center\">© 2025 Astro Aspects. All rights reserved.</p>",
     "footerColor": "#2a2d34",
     "showFooter": true
   },
   "whatsappConfig": {
     "number": "503 60178721"
   },
-  "exportDate": "2025-06-05T23:23:23.728Z"
+  "exportDate": "2025-06-06T04:32:40.648Z"
 }
